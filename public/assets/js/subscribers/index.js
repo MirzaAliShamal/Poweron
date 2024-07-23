@@ -19,7 +19,7 @@
         columns: [
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'emailList', name: 'email_lists.name'},
+            {data: 'emailList', name: 'emailList'},
             {data: 'subscribed', name: 'subscribed'},
             {
                 class: 'td-actions text-end',
@@ -45,5 +45,17 @@
 
     $("#search").keyup(function (e) {
         table.search($(this).val()).draw() ;
+    });
+
+    $(document).on("click", ".view-item", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: $(this).attr('href'),
+            success: function (response) {
+                $("#view_details_modal .modal-body").html(response);
+                $("#view_details_modal").modal('show');
+            },
+        });
     });
 })(jQuery);

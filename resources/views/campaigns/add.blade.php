@@ -70,7 +70,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-12">
+                    <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group mb-5">
                             <label class="required form-label">Email List</label>
                             <select name="email_list_id[]" class="form-select" data-control="select2" data-placeholder="Choose Email List" multiple>
@@ -79,6 +79,12 @@
                                     <option value="{{ $el->id }}" {{ old('email_list_id') == $el->id ? 'selected' : '' }}>{{ $el->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group mb-5">
+                            <label class="form-label">Schedule at <small>(Note: If null then campaign will be regular)</small></label>
+                            <input type="text" name="scheduled_at" class="form-control flat-datetime" placeholder="Choose datetime to schedule"/>
                         </div>
                     </div>
 

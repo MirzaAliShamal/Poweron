@@ -54,6 +54,12 @@ class SubscriberController extends Controller
             ->addColumn('action', function($row){
                 $html = '';
                 $html .= '
+                    <a href="'.route('subscribers.view', $row->id).'" class="me-2 view-item" data-bs-toggle="tooltip" data-bs-placement="top" title="View Record">
+                        <i class="bi bi-eye fs-4 cursor-pointer text-primary"></i>
+                    </a>
+                    <a href="'.route('subscribers.edit', $row->id).'" class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Record">
+                        <i class="bi bi-pencil-square fs-4 cursor-pointer text-primary"></i>
+                    </a>
                     <a href="'.route('subscribers.delete', $row->id).'" class="me-2 delete-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Record">
                         <i class="bi bi-trash fs-4 cursor-pointer text-danger"></i>
                     </a>
@@ -80,15 +86,59 @@ class SubscriberController extends Controller
         ]);
 
         if ($response->successful()) {
+            $moosendId = $response->json()['Context']['ID'];
             Subscriber::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'email_list_id' => $validated['email_list_id'],
+                'sync' => true,
+                'moosend_id' => $moosendId,
             ]);
             return redirect()->route('subscribers.index')->with('success', 'Subscriber created successfully.');
         }
 
         return back()->with('error', 'Failed to create subscriber.');
+    }
+
+    public function edit(Subscriber $subscriber)
+    {
+        $emailLists = EmailList::orderBy('name', 'ASC')->get();
+        return view('subscribers.edit', get_defined_vars());
+    }
+
+    public function update(Request $request, Subscriber $subscriber)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:subscribers,email,'.$subscriber->id,
+            'email_list_id' => 'required|exists:email_lists,id'
+        ]);
+
+        $emailList = EmailList::find($request->email_list_id);
+
+        $response = $this->moosendApi->post('/subscribers/'.$emailList->moosend_id.'/update/'.$subscriber->moosend_id.'.json', [
+            'Name' => $validated['name'],
+            'Email' => $validated['email'],
+        ]);
+
+        if ($response->successful()) {
+            $moosendId = $response->json()['Context']['ID'];
+            Subscriber::updateOrCreate(['id' => $subscriber->id], [
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'email_list_id' => $validated['email_list_id'],
+                'sync' => true,
+                'moosend_id' => $moosendId,
+            ]);
+            return redirect()->route('subscribers.index')->with('success', 'Subscriber updated successfully.');
+        }
+
+        return back()->with('error', 'Failed to update subscriber.');
+    }
+
+    public function view(Subscriber $subscriber)
+    {
+        return view('subscribers.view', get_defined_vars());
     }
 
     public function delete($id)
@@ -130,7 +180,19 @@ class SubscriberController extends Controller
                 'Subscribers' => Subscriber::where('sync', false)->select('name', 'email')->get()->toArray(),
             ]);
 
-            return redirect()->back()->with('success', "Successfully imported $dataRowCount users.");
+            if ($response->successful()) {
+                $subscribers = $response->json()['Context'];
+                foreach ($subscribers as $sub) {
+                    Subscriber::updateOrCreate(['email' => $sub['Email']], [
+                        'sync' => true,
+                        'moosend_id' => $sub['ID'],
+                    ]);
+                }
+
+                return redirect()->back()->with('success', "Successfully imported $dataRowCount users.");
+            } else {
+                throw new \Exception("Error Processing Request");
+            }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error importing users: ' . $e->getMessage());
         } catch (ValidationException $ve) {

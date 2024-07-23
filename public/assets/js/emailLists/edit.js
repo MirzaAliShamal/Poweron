@@ -12,26 +12,14 @@
         label.remove();
     }
 
-    var validator = $(".add-form").validate({
+    var validator = $(".edit-form").validate({
         rules: {
             name: {
-                required: true
-            },
-            email: {
-                required: true,
-                email: true
-            },
-            email_list_id: {
                 required: true
             },
         },
         messages: {
             name: "Please enter your name",
-            email: {
-                required: "Please enter your email address",
-                email: "Please enter a valid email address"
-            },
-            email_list_id: "Please select email list",
         },
         errorElement: 'div',
         errorPlacement: customErrorPlacement,

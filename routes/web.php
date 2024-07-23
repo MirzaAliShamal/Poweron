@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/add', 'add')->name('add');
         Route::get('/fetch', 'fetch')->name('fetch');
         Route::post('/save', 'save')->name('save');
+        Route::get('/edit/{emailList}', 'edit')->name('edit');
+        Route::put('/update/{emailList}', 'update')->name('update');
+        Route::get('/view/{emailList}', 'view')->name('view');
         Route::get('/delete/{id}', 'delete')->name('delete');
     });
 
@@ -51,6 +54,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/add', 'add')->name('add');
         Route::get('/fetch', 'fetch')->name('fetch');
         Route::post('/save', 'save')->name('save');
+        Route::get('/edit/{subscriber}', 'edit')->name('edit');
+        Route::put('/update/{subscriber}', 'update')->name('update');
+        Route::get('/view/{subscriber}', 'view')->name('view');
         Route::get('/delete/{id}', 'delete')->name('delete');
         Route::post('/bulk', 'bulk')->name('bulk');
     });
@@ -70,6 +76,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/save', 'save')->name('save');
         Route::get('/delete/{id}', 'delete')->name('delete');
         Route::get('/send/{id}', 'send')->name('send');
-        Route::post('/schedule/{id}', 'schedule')->name('schedule');
+        Route::get('/scheduled', 'scheduled')->name('scheduled');
+        Route::get('/fetch-scheduled', 'fetchScheduled')->name('fetch.scheduled');
     });
 });

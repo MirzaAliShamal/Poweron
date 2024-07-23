@@ -44,6 +44,15 @@
 							</div>
 						</div>
 					</div>
+
+                    <div class="footer py-4 d-flex flex-lg-column">
+						<div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-end">
+							<div class="text-dark">
+								<span class="text-muted fw-bold me-1">Powered By</span>
+								<a href="/" target="_blank" class="text-gray-800 text-hover-primary fw-bold">Rubitcube Information Technology, LLC</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

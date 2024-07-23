@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('moosend_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('email_template_id')->references('id')->on('email_templates');
+            $table->foreign('email_template_id')->references('id')->on('email_templates')->onDelete('cascade');
         });
     }
 

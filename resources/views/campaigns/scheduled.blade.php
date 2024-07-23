@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Email Lists')
-@section('page-title', 'Email Lists')
+@section('title', 'Scheduled Campaigns')
+@section('page-title', 'Scheduled Campaigns')
 
 @section('breadcrumb')
     <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
@@ -15,7 +15,7 @@
         <li class="breadcrumb-item">
             <span class="bullet bg-gray-200 w-5px h-2px"></span>
         </li>
-        <li class="breadcrumb-item text-dark">Email Lists</li>
+        <li class="breadcrumb-item text-dark">Scheduled Campaigns</li>
     </ul>
 @endsection
 
@@ -44,7 +44,6 @@
                 </div>
             </div>
             <div class="card-toolbar">
-                <a href="{{ route('email.lists.add') }}" class="btn btn-sm btn-primary">Add New</a>
             </div>
         </div>
         <div class="card-body py-3">
@@ -54,9 +53,12 @@
                         <tr class="fw-bolder text-muted bg-light">
                             <th class="ps-4 rounded-start">ID</th>
                             <th>Name</th>
-                            <th>Active Subscribers</th>
-                            <th>Unsubscribed</th>
-                            <th>Created On</th>
+                            <th>Email Template</th>
+                            <th>Subscribers</th>
+                            <th>Sent</th>
+                            <th>Bounced</th>
+                            <th>Open</th>
+                            <th>Status</th>
                             <th class="pe-4 text-end rounded-end">Action</th>
                         </tr>
                     </thead>
@@ -66,12 +68,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="view_details_modal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="schedule_campaign" aria-hidden="true">
         <div class="modal-dialog mw-600px">
             <div class="modal-content">
-                <div class="modal-header" id="add_details_modal_header">
-                    <h2 class="fw-bolder">View Details</h2>
-                    <div class="btn btn-icon btn-sm btn-active-icon-primary" onclick="closeModal('#view_details_modal')">
+                <div class="modal-header" id="schedule_campaign_modal_header">
+                    <h2 class="fw-bolder">Schedule Campaign</h2>
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" onclick="closeModal('#add_details_modal')">
                         <span class="svg-icon svg-icon-1">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
@@ -82,7 +84,37 @@
                         </span>
                     </div>
                 </div>
-                <div class="modal-body scroll-y mx-5"></div>
+                <div class="modal-body scroll-y mx-5">
+                    <form class="form" method="POST" action="">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group mb-5">
+                                    <label class="required form-label">Select Timezone</label>
+                                    <select name="timezone" class="form-select" data-control="select2" data-placeholder="Choose timezone" required>
+                                        <option></option>
+                                        @foreach (timezones() as $t)
+                                            <option value="{{ $t }}">{{ $t }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group mb-5">
+                                    <label class="required form-label">Schedule at</label>
+                                    <input type="text" name="schedule_at" class="form-control flat-datetime" placeholder="Select Date time" value="{{ now() }}" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="reset" class="btn btn-light me-3" onclick="closeModal('#schedule_campaign')">Discard</button>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="indicator-label">Save Changes</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -90,5 +122,5 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('assets/js/emailLists/index.js?v='.rand()) }}"></script>
+    <script src="{{ asset('assets/js/campaigns/scheduled.js?v='.rand()) }}"></script>
 @endsection

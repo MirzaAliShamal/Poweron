@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sync-subscriber')->everyMinute();
         $schedule->command('sync-campaign')->everyMinute();
+        $schedule->command('schedule-campaign')->everyMinute();
     }
 
     /**

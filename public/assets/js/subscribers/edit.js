@@ -12,7 +12,7 @@
         label.remove();
     }
 
-    var validator = $(".add-form").validate({
+    var validator = $(".edit-form").validate({
         rules: {
             name: {
                 required: true

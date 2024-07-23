@@ -20,19 +20,31 @@
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
 				<div class="d-flex flex-column flex-lg-row-auto w-xl-600px positon-xl-relative" style="background-color: #FFF">
 					<div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px scroll-y">
-						<div class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
-							<a href="" class="py-9">
-								<img alt="Logo" src="{{ asset('assets/media/logos/power-on-logo.png') }}" class="h-70px" />
-							</a>
-							<h1 class="fw-bolder fs-2qx pb-5 pb-md-10" style="color: #be7bc3;">Welcome to Email Marketing Tool</h1>
+						<div class="d-flex flex-row-fluid flex-row text-center align-items-start py-9 p-10 pb-lg-20">
+							<div class="d-flex flex-row align-items-center gap-3">
+                                <a href="/" class="">
+                                    <img alt="Logo" src="{{ asset('assets/media/logos/power-on-logo.png') }}" class="h-50px" />
+                                </a>
+                                <span style="font-size:45px;">|</span>
+                                <h1 class="fw-bold fs-2qx">Email Platform</h1>
+                            </div>
 						</div>
 						<div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-300px" style="background-image: url({{ asset('assets/media/illustrations/checkout.png') }})"></div>
 					</div>
 				</div>
-				<div class="d-flex flex-column flex-lg-row-fluid py-10">
-					<div class="d-flex flex-center flex-column flex-column-fluid">
+				<div class="d-flex flex-column flex-lg-row-fluid ">
+					<div class="d-flex flex-center flex-column flex-column-fluid py-10">
 						<div class="w-lg-500px p-10 p-lg-15 mx-auto">
 							@yield('content')
+						</div>
+					</div>
+
+                    <div class="footer py-4 d-flex flex-lg-column">
+						<div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-end">
+							<div class="text-dark">
+								<span class="text-muted fw-bold me-1">Powered By</span>
+								<a href="/" target="_blank" class="text-gray-800 text-hover-primary fw-bold">Rubitcube Information Technology, LLC</a>
+							</div>
 						</div>
 					</div>
 				</div>

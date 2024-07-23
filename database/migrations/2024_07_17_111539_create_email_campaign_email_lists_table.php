@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('email_campaign_id');
             $table->unsignedBigInteger('email_list_id');
 
-            $table->foreign('email_campaign_id')->references('id')->on('email_campaigns');
-            $table->foreign('email_list_id')->references('id')->on('email_lists');
+            $table->foreign('email_campaign_id')->references('id')->on('email_campaigns')->onDelete('cascade');;
+            $table->foreign('email_list_id')->references('id')->on('email_lists')->onDelete('cascade');;
             $table->timestamps();
         });
     }

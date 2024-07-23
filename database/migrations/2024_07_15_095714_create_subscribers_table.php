@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('subscribed')->default(true);
             $table->timestamps();
 
-            $table->foreign('email_list_id')->references('id')->on('email_lists');
+            $table->foreign('email_list_id')->references('id')->on('email_lists')->onDelete('cascade');
         });
     }
 

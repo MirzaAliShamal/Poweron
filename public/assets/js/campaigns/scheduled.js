@@ -10,7 +10,7 @@
             [25, 50, 150, "All"]
         ],
         ajax: {
-            "url" : baseUrl+"/email-lists/fetch",
+            "url" : baseUrl+"/campaigns/fetch-scheduled",
             // "data" : function(d) {
             //     d.joined_from = $('[name="joined_from"]').val();
             //     d.joined_to = $('[name="joined_to"]').val();
@@ -19,9 +19,12 @@
         columns: [
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'active_subscribers_count', name: 'active_subscribers_count'},
-            {data: 'in_active_subscribers_count', name: 'in_active_subscribers_count'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'emailTemplate', name: 'emailTemplate.name'},
+            {data: 'recipients_count', name: 'recipients_count'},
+            {data: 'total_sent', name: 'total_sent'},
+            {data: 'total_bounces', name: 'total_bounces'},
+            {data: 'total_opens', name: 'total_opens'},
+            {data: 'status', name: 'status'},
             {
                 class: 'td-actions text-end',
                 data: 'action',
@@ -46,17 +49,5 @@
 
     $("#search").keyup(function (e) {
         table.search($(this).val()).draw() ;
-    });
-
-    $(document).on("click", ".view-item", function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            url: $(this).attr('href'),
-            success: function (response) {
-                $("#view_details_modal .modal-body").html(response);
-                $("#view_details_modal").modal('show');
-            },
-        });
     });
 })(jQuery);
